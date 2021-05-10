@@ -1,15 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>To Do List</h1>
+  <add-todo @todo-added="addTodo"/>
+  <ul>
+    <li v-for="item in todoItems" :key="item.id">
+      <todo-item :text="item.text" :completed="item.completed" :id="item.id"/>
+    </li>
+  </ul>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AddTodo from "./components/AddTodo";
+import TodoItem from "./components/TodoItem";
+import uniqueId from "lodash.uniqueid";
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TodoItem,
+    AddTodo
+  },
+  data () {
+    return {
+      todoItems: [
+        {id: uniqueId('todo_'), text: 'Eat', completed: true},
+        {id: uniqueId('todo_'), text: 'Sleep', completed: false},
+        {id: uniqueId('todo_'), text: 'Read', completed: true},
+        {id: uniqueId('todo_'), text: 'Work', completed: false},
+      ]
+    }
+  },
+  methods:{
+    addTodo (text) {
+      this.todoItems.push({id: uniqueId('todo_'), text, completed: false})
+    }
   }
 }
 </script>
